@@ -2,4 +2,4 @@
 
 ### Manage NASA free [API APOD](https://api.nasa.gov/api.html#apod).
 
-Display picture of the day. Keeps cache of old images for two weeks.
+Display universe picture of the day. Keeps cache of old pictures for two weeks.
