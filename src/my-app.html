@@ -119,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			<app-header slot="header" fixed>
 				<app-toolbar>
 					<paper-icon-button id="toggle" icon="my-icons:menu" drawer-toggle></paper-icon-button>
-					<div main-title>APOD</div>
+					<div main-title>APPOD</div>
 				</app-toolbar>
 			</app-header>
 
@@ -129,17 +129,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						<iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
 							<a name="view1" href="[[rootPath]]view1">
 								<paper-icon-item>
-									<iron-icon icon="my-icons:inbox" slot="item-icon"></iron-icon><span>Inbox</span>
+									<iron-icon icon="my-icons:photo-library" slot="item-icon"></iron-icon><span>All Pictures</span>
 								</paper-icon-item>
 							</a>
 							<a name="view2" href="[[rootPath]]view2">
 								<paper-icon-item>
-									<iron-icon icon="my-icons:cloud-queue" slot="item-icon"></iron-icon><span>Cloud</span>
-								</paper-icon-item>
-							</a>
-							<a name="view3" href="[[rootPath]]view3">
-								<paper-icon-item>
-									<iron-icon icon="my-icons:contacts" slot="item-icon"></iron-icon><span>Contatos</span>
+									<iron-icon icon="my-icons:favorite" slot="item-icon"></iron-icon><span>Loved</span>
 								</paper-icon-item>
 							</a>
 						</iron-selector>
