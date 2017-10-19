@@ -23,12 +23,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="my-icons.html">
 
-<link rel="lazy-import" href="my-view1.html">
-<link rel="lazy-import" href="my-view2.html">
-<link rel="lazy-import" href="my-view3.html">
-<link rel="lazy-import" href="my-view404.html">
+<link rel="lazy-import" href="appod-pictures.html">
+<link rel="lazy-import" href="appod-loved.html">
+<link rel="lazy-import" href="appod-404.html">
 
-<dom-module id="my-app">
+<dom-module id="appod-app">
 	<template>
 		<style>
 			:host {
@@ -127,12 +126,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<app-drawer id="drawer" slot="drawer" opened swipe-open="[[narrow]]">
 					<div class="drawer-content">
 						<iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-							<a name="view1" href="[[rootPath]]view1">
+							<a name="pictures" href="[[rootPath]]pictures">
 								<paper-icon-item>
 									<iron-icon icon="my-icons:photo-library" slot="item-icon"></iron-icon><span>All Pictures</span>
 								</paper-icon-item>
 							</a>
-							<a name="view2" href="[[rootPath]]view2">
+							<a name="loved" href="[[rootPath]]loved">
 								<paper-icon-item>
 									<iron-icon icon="my-icons:favorite" slot="item-icon"></iron-icon><span>Loved</span>
 								</paper-icon-item>
@@ -144,20 +143,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<iron-pages
 					selected="[[page]]"
 					attr-for-selected="name"
-					fallback-selection="view404"
+					fallback-selection="404"
 					role="main">
-					<my-view1 name="view1"></my-view1>
-					<my-view2 name="view2"></my-view2>
-					<my-view3 name="view3"></my-view3>
-					<my-view404 name="view404"></my-view404>
+					<appod-pictures name="pictures"></appod-pictures>
+					<appod-loved name="loved"></appod-loved>
+					<appod-404 name="404"></appod-404>
 				</iron-pages>
 			</app-drawer-layout>
 		</app-header-layout>
 	</template>
 
 	<script>
-		class MyApp extends Polymer.Element {
-			static get is() { return 'my-app'; }
+		class ApodApp extends Polymer.Element {
+			static get is() { return 'appod-app'; }
 
 			static get properties() {
 				return {
@@ -195,7 +193,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			_routePageChanged(page) {
 				// If no page was found in the route data, page will be an empty string.
 				// Default to 'view1' in that case.
-				this.page = page || 'view1';
+				this.page = page || 'pictures';
 
 				// Close a non-persistent drawer when the page & route are changed.
 				if (!this.$.drawer.persistent) {
@@ -205,7 +203,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 			_pageChanged(page) {
 				// Load page import on demand. Show 404 page if fails
-				var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+				var resolvedPageUrl = this.resolveUrl('appod-' + page + '.html');
 				Polymer.importHref(
 					resolvedPageUrl,
 					null,
@@ -214,10 +212,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			}
 
 			_showPage404() {
-				this.page = 'view404';
+				this.page = '404';
 			}
 		}
 
-		window.customElements.define(MyApp.is, MyApp);
+		window.customElements.define(ApodApp.is, ApodApp);
 	</script>
 </dom-module>
