@@ -1,4 +1,4 @@
-# APOD Astronomy Picture of the Day
+# APPOD Astronomy Picture of the Day
 
 ### Manage NASA free [API APOD](https://api.nasa.gov/api.html#apod).
 
