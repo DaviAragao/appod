@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="appod-pictures-adapter">
+	<template>
+		<iron-ajax
+			id="getPicture"
+			url="{{getPictureUrl}}"
+			params="{{getPictureParams}}"
+			handle-as="json"
+			on-response="handlePicture">
+		</iron-ajax>
+	</template>
+
+	<script>
+		class AppodPicturesAdapter extends Polymer.Element {
+			static get is() { return 'appod-pictures-adapter'; }
+			static get properties() {
+				return {
+					pictures: {
+						type: Array,
+						notify: true
+					},
+					getPictureUrl: {
+						type: String,
+						value: 'https://api.nasa.gov/planetary/apod'
+					},
+					getPictureParams:{
+						type: Object,
+						value: {
+							'api_key': 'ebXtnpUA240pjNtoJ2O77imbVQirCJCWUTXw9S8X'
+						}
+					}
+				}
+			}
+
+			handlePicture(picture){
+				console.log(picture);
+			}
+
+			getPicture(date){
+				console.log(getPictureParams);
+				//this.$.getPicture.generateRequest();
+			}
+		}
+
+		window.customElements.define(AppodPicturesAdapter.is, AppodPicturesAdapter);
+	</script>
+</dom-module>

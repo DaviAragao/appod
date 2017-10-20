@@ -15,7 +15,9 @@
     "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
     "polymer": "Polymer/polymer#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
-    "paper-item": "PolymerElements/paper-item#^2.0.0"
+    "paper-item": "PolymerElements/paper-item#^2.0.0",
+    "paper-card": "PolymerElements/paper-card#^2.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.0.5"
   },
   "resolutions": {
     "polymer": "^2.0.0"

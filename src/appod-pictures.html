@@ -1,60 +1,41 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="appod-pictures-adapter.html">
 
 <dom-module id="appod-pictures">
 	<template>
-		<style include="shared-styles">
+		<style>
 			:host {
 				display: block;
 
 				padding: 10px;
 			}
 		</style>
-		<div class="card">
-			<div class="circle">1</div>
-			<h1>View One</h1>
-			<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-			<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-		</div>
-		<div class="card">
-			<div class="circle">1</div>
-			<h1>View One</h1>
-			<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-			<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-		</div>
-		<div class="card">
-			<div class="circle">1</div>
-			<h1>View One</h1>
-			<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-			<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-		</div>
-		<div class="card">
-			<div class="circle">1</div>
-			<h1>View One</h1>
-			<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-			<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-		</div>
-		<div class="card">
-			<div class="circle">1</div>
-			<h1>View One</h1>
-			<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-			<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-		</div>
+		<appod-pictures-adapater
+			id="nasaApi"
+			pictures="{{pictures}}">
+		</appod-pictures-adapater>
 	</template>
 
 	<script>
 		class AppodPictures extends Polymer.Element {
 			static get is() { return 'appod-pictures'; }
+			static get properties() {
+				return {
+					pictures: {
+						type: Array,
+						value: []
+					}
+				}
+			}
+			connectedCallback () {
+				super.connectedCallback();
+				setTimeout(() => {
+					console.log(this.$.nasaApi.pictures);
+					console.log(this.$.nasaApi.handlePicture());
+				}, 1000);
+				console.log(this.$.nasaApi.getPicture());
+			}
 		}
 
 		window.customElements.define(AppodPictures.is, AppodPictures);
