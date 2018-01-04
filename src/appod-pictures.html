@@ -1,20 +1,34 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="appod-pictures-adapter.html">
+<link rel="import" href="appod-picture.html">
 
 <dom-module id="appod-pictures">
 	<template>
 		<style>
 			:host {
 				display: block;
-
 				padding: 10px;
 			}
 		</style>
-		<appod-pictures-adapater
+		<template
+			is="dom-repeat"
+			items="{{pictures}}"
+			as="picture">
+			<appod-picture
+				title="[[picture.title]]"
+				copyright="[[picture.copyright]]"
+				date="[[picture.date]]"
+				explanation="[[picture.explanation]]"
+				hd-url="[[picture.hdurl]]"
+				url="[[picture.url]]"
+				media-type="[[picture.media_type]]">
+			</appod-picture>
+		</template>
+
+		<appod-pictures-adapter
 			id="nasaApi"
 			pictures="{{pictures}}">
-		</appod-pictures-adapater>
+		</appod-pictures-adapter>
 	</template>
 
 	<script>
@@ -28,13 +42,23 @@
 					}
 				}
 			}
-			connectedCallback () {
+			connectedCallback() {
 				super.connectedCallback();
-				setTimeout(() => {
-					console.log(this.$.nasaApi.pictures);
-					console.log(this.$.nasaApi.handlePicture());
-				}, 1000);
-				console.log(this.$.nasaApi.getPicture());
+				this.$.nasaApi.getPicture(this.getCurrentDate());
+			}
+
+			getCurrentDate() {
+				const today = new Date();
+				const yyyy = today.getFullYear();
+				let dd = today.getDate();
+				let mm = today.getMonth() + 1;
+
+				if(dd < 10)
+					dd = '0' + dd;
+				if(mm < 10)
+					mm = '0' + mm;
+
+				return `${yyyy}-${mm}-${dd}`;
 			}
 		}
 

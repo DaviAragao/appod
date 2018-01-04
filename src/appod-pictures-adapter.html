@@ -8,7 +8,7 @@
 			url="{{getPictureUrl}}"
 			params="{{getPictureParams}}"
 			handle-as="json"
-			on-response="handlePicture">
+			last-response="{{picture}}">
 		</iron-ajax>
 	</template>
 
@@ -20,6 +20,10 @@
 					pictures: {
 						type: Array,
 						notify: true
+					},
+					picture: {
+						type: Object,
+						observer: '_handlePictures'
 					},
 					getPictureUrl: {
 						type: String,
@@ -34,13 +38,12 @@
 				}
 			}
 
-			handlePicture(picture){
-				console.log(picture);
+			_handlePictures(picture) {
+				this.push('pictures', picture);
 			}
 
-			getPicture(date){
-				console.log(getPictureParams);
-				//this.$.getPicture.generateRequest();
+			getPicture(date) {
+				this.$.getPicture.generateRequest();
 			}
 		}
 

@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="appod-picture">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			.card-content, .card-actions {
+				color: var(--app-primary-color);
+			}
+			.cardHeader {
+				@apply --paper-font-headline;
+			}
+			.cardAutor {
+				color: var(--paper-grey-600);
+				margin: 10px 0;
+			}
+		</style>
+		<paper-card
+			image="{{url}}"
+			alt="{{title}}">
+			<div class="card-content">
+				<div class="cardHeader">{{title}}</div>
+				<div class="cardAutor">{{copyright}}</div>
+				<div class="cardExplanation">{{explanation}}</div>
+			</div>
+			<div class="card-actions">
+				<paper-icon-button
+					style="color: #c4001d"
+					icon="my-icons:favorite">
+				</paper-icon-button>
+			</div>
+		</paper-card>
+	</template>
+
+	<script>
+		class AppodPicture extends Polymer.Element {
+			static get is() { return 'appod-picture'; }
+			static get properties() {
+				return {
+					title: String,
+					copyright: String,
+					date: String,
+					explanation: String,
+					hdUrl: String,
+					url: String,
+					mediaType: String
+				}
+			}
+		}
+
+		window.customElements.define(AppodPicture.is, AppodPicture);
+	</script>
+</dom-module>
