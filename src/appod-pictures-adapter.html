@@ -1,17 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="appod-pictures-adapter">
-	<template>
-		<iron-ajax
-			id="getPicture"
-			url="{{getPictureUrl}}"
-			params="{{getPictureParams}}"
-			handle-as="json"
-			last-response="{{picture}}">
-		</iron-ajax>
-	</template>
-
 	<script>
 		class AppodPicturesAdapter extends Polymer.Element {
 			static get is() { return 'appod-pictures-adapter'; }
@@ -21,29 +10,35 @@
 						type: Array,
 						notify: true
 					},
-					picture: {
-						type: Object,
-						observer: '_handlePictures'
-					},
 					getPictureUrl: {
 						type: String,
 						value: 'https://api.nasa.gov/planetary/apod'
 					},
-					getPictureParams:{
-						type: Object,
-						value: {
-							'api_key': 'ebXtnpUA240pjNtoJ2O77imbVQirCJCWUTXw9S8X'
-						}
-					}
+					apiKey: {
+						type: String,
+						value: 'ebXtnpUA240pjNtoJ2O77imbVQirCJCWUTXw9S8X'
+					},
+					date: String
 				}
 			}
 
-			_handlePictures(picture) {
-				this.push('pictures', picture);
+			getPicture(date) {
+				this.date = date;
+				return this.fetchPicture();
 			}
 
-			getPicture(date) {
-				this.$.getPicture.generateRequest();
+			fetchPicture() {
+				return new Promise((resolve, reject) => {
+					fetch(this.prepareUrl())
+						.then(response => response.json())
+							.then(json => resolve(json))
+							.catch(error => reject(Error(`Error to convert picture in JSON ${error}`)))
+						.catch(error => reject(Error(`Error to get picture ${error}`)));
+				});
+			}
+
+			prepareUrl() {
+				return `${this.getPictureUrl}?api_key=${this.apiKey}&date=${this.date}`;
 			}
 		}
 

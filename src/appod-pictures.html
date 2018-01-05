@@ -4,27 +4,6 @@
 
 <dom-module id="appod-pictures">
 	<template>
-		<style>
-			:host {
-				display: block;
-				padding: 10px;
-			}
-		</style>
-		<template
-			is="dom-repeat"
-			items="{{pictures}}"
-			as="picture">
-			<appod-picture
-				title="[[picture.title]]"
-				copyright="[[picture.copyright]]"
-				date="[[picture.date]]"
-				explanation="[[picture.explanation]]"
-				hd-url="[[picture.hdurl]]"
-				url="[[picture.url]]"
-				media-type="[[picture.media_type]]">
-			</appod-picture>
-		</template>
-
 		<appod-pictures-adapter
 			id="nasaApi"
 			pictures="{{pictures}}">
@@ -39,19 +18,68 @@
 					pictures: {
 						type: Array,
 						value: []
+					},
+					qtdPictures: {
+						type: Number,
+						value: 14     
 					}
 				}
 			}
 			connectedCallback() {
 				super.connectedCallback();
-				this.$.nasaApi.getPicture(this.getCurrentDate());
+				this.$.nasaApi.getPicture(this.getCurrentDate())
+					.then(picture => {
+						this.addPicture(picture);
+						this.getLatestPictures();
+					})
+					.catch(error => console.error(error));
+			}
+
+			addPicture(picture) {
+				const template = document.createElement('template');
+				template.innerHTML = `<appod-picture
+							title="${picture.title}"
+							copyright="${picture.copyright}"
+							date="${this.getHumamDate(picture.date)}"
+							explanation="${picture.explanation}"
+							hd-url="${picture.hdurl}"
+							url="${picture.url}"
+							media-type="${picture.media_type}">
+						</appod-picture>`;
+
+				this.shadowRoot.appendChild(template.content.cloneNode(true));
+			}
+
+			getLatestPictures() {
+				const picturesDate = this.getPicturesDate();
+				for(const date of picturesDate) {
+					this.$.nasaApi.getPicture(date)
+						.then(picture => this.addPicture(picture))
+						.catch(error => console.error(error));
+				}
 			}
 
 			getCurrentDate() {
-				const today = new Date();
-				const yyyy = today.getFullYear();
-				let dd = today.getDate();
-				let mm = today.getMonth() + 1;
+				return this.formatDate(new Date());
+			}
+
+			getPicturesDate() {
+				let picturesDate = Array();
+				for(let day = 1; day <= this.qtdPictures; day++)
+					picturesDate.push(this.formatDate(new Date(Date.now() - (86400000 * day))));
+
+				return picturesDate;
+			}
+
+			getHumamDate(date) {
+				const humamDate = date.split('-');
+				return `${humamDate[2]}/${humamDate[1]}/${humamDate[0]}`;
+			}
+
+			formatDate(date) {
+				const yyyy = date.getFullYear();
+				let dd = date.getDate();
+				let mm = date.getMonth() + 1;
 
 				if(dd < 10)
 					dd = '0' + dd;
