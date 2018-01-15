@@ -8,6 +8,9 @@
 			:host {
 				display: block;
 			}
+			paper-card {
+				min-width: 100%;
+			}
 			.card-content, .card-actions {
 				color: var(--app-primary-color);
 			}
@@ -19,10 +22,9 @@
 				margin: 10px 0;
 			}
 		</style>
-		<paper-card
-			image="{{url}}"
-			alt="{{title}}">
+		<paper-card>
 			<div class="card-content">
+				<div class="cardImage" data-img="{{url}}"></div>
 				<div class="cardHeader">{{title}}</div>
 				<div class="cardDate">{{date}}</div>
 				<div class="cardAutor">{{copyright}}</div>
@@ -51,7 +53,12 @@
 					mediaType: String
 				}
 			}
+
+			loadPicture() {
+				this.querySelector('.cardImage');
+			}
 		}
+		
 		window.customElements.define(AppodPicture.is, AppodPicture);
 	</script>
 </dom-module>

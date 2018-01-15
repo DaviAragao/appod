@@ -1,9 +1,25 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="appod-pictures-adapter.html">
 <link rel="import" href="appod-picture.html">
+<link rel="import" href="lazyImg.html">
 
 <dom-module id="appod-pictures">
 	<template>
+		<template
+			is="dom-repeat"
+			items="{{pictures}}"
+			as="picture">
+			<appod-picture
+				class="picture"
+				title="[[picture.title]]"
+				copyright="[[picture.copyright]]"
+				date="[[getHumamDate(picture.date)]]"
+				explanation="[[picture.explanation]]"
+				hd-url="[[picture.hdurl]]"
+				url="[[picture.url]]"
+				media-type="[[picture.media_type]]">
+			</appod-picture>
+		</template>
 		<appod-pictures-adapter
 			id="nasaApi"
 			pictures="{{pictures}}">
@@ -36,27 +52,28 @@
 			}
 
 			addPicture(picture) {
-				const template = document.createElement('template');
-				template.innerHTML = `<appod-picture
-							title="${picture.title}"
-							copyright="${picture.copyright}"
-							date="${this.getHumamDate(picture.date)}"
-							explanation="${picture.explanation}"
-							hd-url="${picture.hdurl}"
-							url="${picture.url}"
-							media-type="${picture.media_type}">
-						</appod-picture>`;
-
-				this.shadowRoot.appendChild(template.content.cloneNode(true));
+				this.push('pictures', picture);
 			}
 
 			getLatestPictures() {
-				const picturesDate = this.getPicturesDate();
-				for(const date of picturesDate) {
+				let picturesDate = this.getPicturesDate();
+				picturesDate = picturesDate.map(date => {
 					this.$.nasaApi.getPicture(date)
 						.then(picture => this.addPicture(picture))
 						.catch(error => console.error(error));
-				}
+				});
+				Promise.all(picturesDate)
+					.then(result => this.lazyLoadImages())
+					.catch(error => console.error(error));
+			}
+
+			lazyLoadImages() {
+				const pictures = this.shadowRoot.querySelectorAll('appod-picture');
+				let picturesImage =  Array();
+				for(const picture of pictures)
+					picturesImage.push(picture.shadowRoot.querySelector('.cardImage'));
+
+				new LazyImg(picturesImage);
 			}
 
 			getCurrentDate() {
