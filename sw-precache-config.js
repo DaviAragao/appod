@@ -26,5 +26,26 @@ module.exports = {
 				},
 			},
 		},
+		{
+			urlPattern: /https:\/\/apod.nasa.gov*/,
+			handler: 'cacheFirst',
+			options: {
+				cache: {
+					maxAgeSeconds: 60 * 60 * 24 * 14,
+					maxEntries: 28,
+					name: 'pictures-cache',
+				},
+			},
+		},
+		{
+			urlPattern: /https:\/\/api.nasa.gov*/,
+			handler: 'cacheFirst',
+			options: {
+				cache: {
+					maxEntries: 28,
+					name: 'api-cache',
+				},
+			},
+		}
 	],
 };

@@ -10,6 +10,7 @@
 			}
 			paper-card {
 				min-width: 100%;
+				border-radius: inherit;
 			}
 			.card-content, .card-actions {
 				color: var(--app-primary-color);
@@ -22,9 +23,8 @@
 				margin: 10px 0;
 			}
 		</style>
-		<paper-card>
+		<paper-card image="{{url}}">
 			<div class="card-content">
-				<div class="cardImage" data-img="{{url}}"></div>
 				<div class="cardHeader">{{title}}</div>
 				<div class="cardDate">{{date}}</div>
 				<div class="cardAutor">{{copyright}}</div>
@@ -54,11 +54,16 @@
 				}
 			}
 
-			loadPicture() {
-				this.querySelector('.cardImage');
+			connectedCallback() {
+				super.connectedCallback();
+				const img = this.shadowRoot.querySelector('paper-card').shadowRoot.querySelector('.header');
+				img.style.cursor = `pointer`;
+				img.addEventListener('click', event => {
+					console.log('Tap na imagen!');
+				});
 			}
 		}
-		
+
 		window.customElements.define(AppodPicture.is, AppodPicture);
 	</script>
 </dom-module>

@@ -1,7 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="appod-pictures-adapter.html">
 <link rel="import" href="appod-picture.html">
-<link rel="import" href="lazyImg.html">
 
 <dom-module id="appod-pictures">
 	<template>
@@ -43,12 +42,7 @@
 			}
 			connectedCallback() {
 				super.connectedCallback();
-				this.$.nasaApi.getPicture(this.getCurrentDate())
-					.then(picture => {
-						this.addPicture(picture);
-						this.getLatestPictures();
-					})
-					.catch(error => console.error(error));
+				this.getLatestPictures();
 			}
 
 			addPicture(picture) {
@@ -62,18 +56,6 @@
 						.then(picture => this.addPicture(picture))
 						.catch(error => console.error(error));
 				});
-				Promise.all(picturesDate)
-					.then(result => this.lazyLoadImages())
-					.catch(error => console.error(error));
-			}
-
-			lazyLoadImages() {
-				const pictures = this.shadowRoot.querySelectorAll('appod-picture');
-				let picturesImage =  Array();
-				for(const picture of pictures)
-					picturesImage.push(picture.shadowRoot.querySelector('.cardImage'));
-
-				new LazyImg(picturesImage);
 			}
 
 			getCurrentDate() {
@@ -82,7 +64,7 @@
 
 			getPicturesDate() {
 				let picturesDate = Array();
-				for(let day = 1; day <= this.qtdPictures; day++)
+				for(let day = 0; day <= this.qtdPictures; day++)
 					picturesDate.push(this.formatDate(new Date(Date.now() - (86400000 * day))));
 
 				return picturesDate;
